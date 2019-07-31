@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 // import Context from '../Context';
-
+   
 export default class CreateCourse extends Component {
 
     constructor() {
@@ -27,7 +27,9 @@ export default class CreateCourse extends Component {
           errors
         } = this.state;
         const {context} = this.props;
+        
         const authUser = this.context.authenticatedUser;
+        
         return(
 
     <div className="bounds course--detail">
@@ -55,7 +57,9 @@ export default class CreateCourse extends Component {
                 value={this.state.courseTitle}
                 onChange={this.change}/>
                 </label>
-            <p>By </p>
+            <p>By 
+            {/* {authUser.firstName} {authUser.lastName} */}
+            </p>
           </div>
           <div className="course--description">
             <label><textarea 
@@ -141,8 +145,10 @@ submit = (e) => {
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  console.log(password)
-    
+  console.log(authUser.firstName)
+  console.log(authUser.lastName)
+  console.log(emailAddress)
+
     const course = {
       courseTitle,
       courseDescription,
