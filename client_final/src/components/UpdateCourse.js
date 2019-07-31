@@ -124,49 +124,39 @@ export default class UpdateCourse extends Component {
             });
           }
 
-//           submit = () => {
-//             const { context } = this.props;
-//             const {
-//                 courseTitle,
-//                 courseDescription,
-//                 materials,
-//                 time,
-//                   } = this.state;
-        
-// }
 
-submit = (e) => {
-    const {match: { params }} = this.props;
-    e.preventDefault();
-      axios ({
-          method: 'put',
-          url: `http://localhost:5000/api/courses/${params.id}`,
-          auth: {
-            username: window.localStorage.getItem('emailAddress'),
-            password: window.localStorage.getItem('password')
-         },
-          data: {
-              courseTitle: this.state.title,
-              courseDescription: this.state.description,
-              materials: this.state.materialsNeeded,
-              time: this.state.estimatedTime,
+submit = () => {
+  const {courseTitle, courseDescription, time, materials, specificCourse} = this.state;
+  const { context } = this.props;
+
+  const authUser = context.authenticatedUser;
+  const emailAddress = authUser.emailAddress;
+  const password = authUser.password
+
+  const courseData = {
+    courseTitle,
+    courseDescription,
+    time,
+    materials
+  }
+
+  const { match: { params } } = this.props;
+  axios.put(`/api/courses/${params.id}`, courseData, {
+    auth : {
+      username: emailAddress,
+      password,
+    }
+  })
+    .then(() => {
+      this.props.history.push(`/courses/${specificCourse.id}`);
+    })
+    .catch((err) => {
+      const errors = err.response.data.errors;
+      this.setState({ errors })
+    })
+
+}
 
 
-              }
-      }).then(response => { 
-        if (response.status === 204) {
-          alert(`Your course ${this.state.title} has been updated`);
-          this.props.history.push("/");
-        } else {
-          throw new Error();
-        }
-      })
-      .catch(err => {
-        console.log("CATCH =", err.response.data.errors);
-        this.setState({
-          errors: err.response.data.errors
-        });
-      });
-  };
 
 }

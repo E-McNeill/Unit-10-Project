@@ -38,13 +38,10 @@ class App extends Component {
       <HeaderWithContext />
 
       <Switch>
-        {/* <Route exact path="/" component={Public} /> */}
         <Redirect exact from="/" to='/courses' />
-        {/* <Route  exact path = '/courses/create' component={CreateCourse} /> */}
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
-
         <Route  exact path="/courses" component={Courses} />
-        <Route  path = '/courses/:id/update' component={UpdateCourseWithContext} />
+        <PrivateRoute  path = '/courses/:id/update' component={UpdateCourseWithContext} />
         <Route  path = '/courses/:id' component={CourseDetail} />
         <PrivateRoute path="/authenticated" component={AuthWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
