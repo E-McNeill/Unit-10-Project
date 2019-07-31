@@ -148,6 +148,7 @@ submit = (e) => {
   console.log(authUser.firstName)
   console.log(authUser.lastName)
   console.log(emailAddress)
+  console.log(password)
 
     const course = {
       courseTitle,

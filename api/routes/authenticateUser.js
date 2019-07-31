@@ -18,8 +18,9 @@ module.exports = (req, res, next) => {
     
     if (user){
       const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
-  
-      if (authenticated || credentials.pass === user.password) {
+      // const authenticated = (credentials.pass, user.password);
+
+      if (authenticated || credentials.pass === user.password ) {
         console.log(`Authentication successful for username: ${user.emailAddress}`);
         req.currentUser = user;
         next();
@@ -33,6 +34,8 @@ module.exports = (req, res, next) => {
       }
       } else {
         console.log(`User not found for username: ${credentials.name}`);
+        console.log(`User not found for username: ${credentials.emailAddress}`);
+
         const err = new Error(`User not found for username: ${credentials.name}`);
         err.status = 401;
         next(err);
