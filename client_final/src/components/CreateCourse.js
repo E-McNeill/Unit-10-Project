@@ -27,8 +27,8 @@ export default class CreateCourse extends Component {
           errorTitle,
           errors
         } = this.state;
-        // const {context} = this.props;
-        // const authUser = context.authenticatedUser;
+        const {context} = this.props;
+        const authUser = context.authenticatedUser;
         // console.log(`authuser = ${authUser}`)
         return(
 
@@ -125,52 +125,82 @@ change = (event) => {
   });
 }
 
-submit = (e) => {
+submit = () => {
   // const {match: { params }} = this.props;
-  e.preventDefault();
+  // e.preventDefault();
   if (!this.state.courseTitle || !this.state.courseDescription) {
     this.setState({
       errorTitle: 'Validation Errors:',
       errors: 'Wait! Both a Course Title and Description are required.'
     })
   } else {
-    axios ({
-        method: 'post',
-        url: `http://localhost:5000/api/courses/`,
-        auth: {
-          username: window.localStorage.getItem('emailAddress'),
-          password: window.localStorage.getItem('password'),
-          
-       }
-       
-       ,
-        data: {
-            courseTitle: this.state.title,
-            courseDescription: this.state.description,
-            materials: this.state.materialsNeeded,
-            time: this.state.estimatedTime,
-            userId: localStorage.getItem("id")
-            }
-            
-    }).then(response => { 
-      if (response.status === 204) {
-        alert(`Your course ${this.state.title} has been created`);
-        this.props.history.push("/courses");
-      } else {
-        throw new Error();
+    const {title, description, estimatedTime, materialsNeeded} = this.state;
+    const { context } = this.props;
+
+    const authUser = context.authenticatedUser;
+    const emailAddress = authUser.emailAddress;
+    const password = authUser.password
+  
+    
+    const course = {
+      title,
+      description,
+      estimatedTime,
+      materialsNeeded,
+      userId : authUser.id
+    }
+
+    context.data.createCourse(course, emailAddress, password)  
+    .then(errors => {
+      if (errors.length) {
+        this.setState({ errors }); 
+      }  else {
+        this.props.history.push(`/`);
       }
     })
-    .catch(err => {
-      console.log("CATCH =", err.response.data.errors);
-      this.setState({
-        errors: err.response.data.errors
-      });
-    });
+    .catch((err) => {
+      console.log(err)
+    }) 
+}
+
+    // axios ({
+    //     method: 'post',
+    //     url: `http://localhost:5000/api/courses/`,
+    //     auth: {
+    //       username: window.localStorage.getItem('emailAddress'),
+    //       password: window.localStorage.getItem('password'),
+          
+    //    }
+       
+    //    ,
+    //     data: {
+    //         courseTitle: this.state.title,
+    //         courseDescription: this.state.description,
+    //         materials: this.state.materialsNeeded,
+    //         time: this.state.estimatedTime,
+    //         userId: localStorage.getItem("id")
+    //         }
+            
+    // })
+    // .then(response => { 
+    //   if (response.status === 204) {
+    //     alert(`Your course ${this.state.title} has been created`);
+    //     this.props.history.push("/courses");
+    //   } else {
+    //     throw new Error();
+    //   }
+    // })
+    // .catch(err => {
+    //   console.log("CATCH =", err.response.data.errors);
+    //   this.setState({
+    //     errors: err.response.data.errors
+    //   });
+    // });
 };
 }
 
 
 
 
-}
+// }
 
