@@ -1,26 +1,27 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // import Context from '../Context';
    
 export default class CreateCourse extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-          courseTitle:"",
-          courseDescription:"",
+    // constructor() {
+    //     super();
+    //     this.
+        state = {
+          title:"",
+          description:"",
           materials:"",
           time: "",
           errorTitle: '',
           errors: [],
 
         };
-      }
+      // }
       render(){
         const {
-          courseTitle,
-          courseDescription,
+          title,
+          description,
           materials,
           time,
           errorTitle,
@@ -28,8 +29,8 @@ export default class CreateCourse extends Component {
         } = this.state;
         const {context} = this.props;
         
-        const authUser = this.context.authenticatedUser;
-        
+        const authUser = context.authenticatedUser;
+        console.log(authUser)
         return(
 
     <div className="bounds course--detail">
@@ -49,23 +50,22 @@ export default class CreateCourse extends Component {
             <h4 className="course--label">Course</h4>
             <label>
                 <input 
-                id="courseTitle" 
-                name="courseTitle" 
+                id="title" 
+                name="title" 
                 type="text" 
                 className="input-title course--title--input" 
                 placeholder="Course title..."
-                value={this.state.courseTitle}
+                value={title}
                 onChange={this.change}/>
                 </label>
-            <p>By 
-            {/* {authUser.firstName} {authUser.lastName} */}
-            </p>
+            <p>By {authUser.firstName} {authUser.lastName}</p>
           </div>
           <div className="course--description">
             <label><textarea 
-            id="courseDescription" 
-            name="courseDescription" 
+            id="description" 
+            name="description" 
             className="" 
+            value={description}
             placeholder="Course description..."
             onChange={this.change}>
               
@@ -85,7 +85,7 @@ export default class CreateCourse extends Component {
                     type="text" 
                     className="course--time--input"
                     placeholder="Hours" 
-                    value={this.state.time}
+                    value={time}
                     onChange={this.change}
                     /></label>
               </li>
@@ -97,6 +97,7 @@ export default class CreateCourse extends Component {
                   name="materials" 
                   className="" 
                   placeholder="List materials..."
+                  value={materials}
                   onChange={this.change}>
                     </textarea>
                     </label>
@@ -129,7 +130,7 @@ change = (event) => {
 
 submit = (e) => {
   // const {match: { params }} = this.props;
-  if (!this.state.courseTitle || !this.state.courseDescription) {
+  if (!this.state.title || !this.state.description) {
     e.preventDefault();
     this.setState({
       errorTitle: 'Validation Errors:',
@@ -139,20 +140,17 @@ submit = (e) => {
    {
     e.preventDefault();
 
-    const {courseTitle, courseDescription, time, materials} = this.state;
+    const {title, description, time, materials} = this.state;
     const { context } = this.props;
 
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  console.log(authUser.firstName)
-  console.log(authUser.lastName)
-  console.log(emailAddress)
-  console.log(password)
+  console.log(authUser.firstName + authUser.lastName + emailAddress + password)
 
     const course = {
-      courseTitle,
-      courseDescription,
+      title,
+      description,
       time,
       materials,
       userId : authUser.id

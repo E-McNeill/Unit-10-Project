@@ -16,14 +16,16 @@ export default class Data {
     }
 
     if (requiresAuth) {    
-      const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      // const encodedCredentials = btoa(`${credentials.username}:${credentials.password}`);
+      const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`); //test
+
       options.headers['Authorization'] = `Basic ${encodedCredentials}`;
     }
     return fetch(url, options);
   }
 
-  async getUser(username, password) {
-    const response = await this.api(`/users`, 'GET', null, true, { username, password });
+  async getUser(emailAddress, password) {
+    const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
       return response.json().then(data => data);
     }
@@ -49,7 +51,18 @@ export default class Data {
       throw new Error();
     }
   }
-//testing
+
+  async updateCourse(course, courseId, emailAddress, password) {
+    const response = await this.api(`/courses/${courseId}`, 'PUT', course, true, {emailAddress, password});
+    if (response.status === 204) {
+      return response
+    } 
+    else if (response.status !== 204) {
+      return response.json().then(data => data);
+    } else {
+        throw new Error();
+    }
+  }
 
 async createCourse(course, emailAddress, password) {
   const response = await this.api('/courses', 'POST', course, true, {emailAddress, password});
@@ -65,6 +78,8 @@ async createCourse(course, emailAddress, password) {
     throw new Error();
   }
 }
+
+
 
   
 }

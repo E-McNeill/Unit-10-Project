@@ -9,14 +9,13 @@ const auth = require('basic-auth');
 
 // Authenticates the user info
 
-module.exports = (req, res, next) => {
+const authenticateUser = (req, res, next ) => {
     let message = null;
     const credentials = auth(req);
-  
     if (credentials) {
      User.findOne({where: {emailAddress : credentials.name}}).then( user => {
-    
-    if (user){
+
+      if (user){
       const authenticated = bcryptjs.compareSync(credentials.pass, user.password);
       // const authenticated = (credentials.pass, user.password);
 
@@ -33,8 +32,8 @@ module.exports = (req, res, next) => {
   
       }
       } else {
-        console.log(`User not found for username: ${credentials.name}`);
-        console.log(`User not found for username: ${credentials.emailAddress}`);
+        // console.log(`User not found for username: ${JSON.stringify(credentials)}`);
+        console.log(`User not found for username: ${credentials.pass}`);
 
         const err = new Error(`User not found for username: ${credentials.name}`);
         err.status = 401;
@@ -50,4 +49,4 @@ module.exports = (req, res, next) => {
       }
     }
   
-  
+    module.exports = authenticateUser

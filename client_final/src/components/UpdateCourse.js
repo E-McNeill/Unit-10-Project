@@ -8,9 +8,11 @@ export default class UpdateCourse extends Component {
         super();
         this.state = {
           specificCourse: [],
+          courseId: '',
+          userId: '',
           userName: "",
-          courseTitle:"",
-          courseDescription:"",
+          title:"",
+          description:"",
           materials:"",
           time: "",
           errors: []
@@ -24,10 +26,12 @@ export default class UpdateCourse extends Component {
           this.setState({
               specificCourse: response.data,
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
-              courseTitle: response.data.course.title,
-              courseDescription: response.data.course.description,
+              title: response.data.course.title,
+              description: response.data.course.description,
               materials: response.data.course.materialsNeeded,
-              time:response.data.course.estimatedTime
+              time:response.data.course.estimatedTime,
+              courseId: response.data.course.id,
+              userId: response.data.course.userId
             })
     })
     
@@ -35,6 +39,19 @@ export default class UpdateCourse extends Component {
 
     
       render(){
+        const {
+          title,
+          description,
+          materials,
+          time,
+          errorTitle,
+          errors,
+          userId,
+          courseId
+        } = this.state;
+        const {context} = this.props;
+        
+        const authUser = context.authenticatedUser;
         return(
             <div className="bounds course--detail">
             <h1>Update Course</h1>
@@ -45,12 +62,12 @@ export default class UpdateCourse extends Component {
                     <h4 className="course--label">Course</h4>
                     <div>
                         <input 
-                        id="courseTitle" 
-                        name="courseTitle" 
+                        id="title" 
+                        name="title" 
                         type="text" 
                         className="input-title course--title--input" 
                         placeholder="Course title..."
-                        value={this.state.courseTitle} 
+                        value={this.state.title} 
                         onChange={this.change} />
                         </div>
                         <p>By {this.state.userName}</p>
@@ -58,11 +75,11 @@ export default class UpdateCourse extends Component {
                   <div className="course--description">
                   <div>
                         <textarea 
-                        id="courseDescription" 
-                        name="courseDescription" 
+                        id="description" 
+                        name="description" 
                         className="" 
                         placeholder="Course description..."
-                        value={this.state.courseDescription} 
+                        value={this.state.description} 
                         onChange={this.change} >
                         </textarea>
                     </div>
@@ -125,38 +142,81 @@ export default class UpdateCourse extends Component {
           }
 
 
-submit = () => {
-  const {courseTitle, courseDescription, time, materials, specificCourse} = this.state;
-  const { context } = this.props;
+// submit = () => {
+//   const {title, description, time, materials, specificCourse} = this.state;
+//   const { context } = this.props;
 
-  const authUser = context.authenticatedUser;
-  const emailAddress = authUser.emailAddress;
-  const password = authUser.password
+//   const authUser = context.authenticatedUser;
+//   const emailAddress = authUser.emailAddress;
+//   const password = authUser.password
 
-  const courseData = {
-    courseTitle,
-    courseDescription,
-    time,
-    materials
-  }
+//   const courseData = {
+//     title,
+//     description,
+//     time,
+//     materials
+//   }
 
-  const { match: { params } } = this.props;
-  axios.put(`/api/courses/${params.id}`, courseData, {
-    auth : {
-      username: emailAddress,
-      password,
+//   const { match: { params } } = this.props;
+//   axios.put(`/api/courses/${params.id}`, courseData, {
+//     auth : {
+//       username: emailAddress,
+//       password,
+//     }
+//   })
+//     .then(() => {
+//       this.props.history.push(`/courses/${specificCourse.id}`);
+//     })
+//     .catch((err) => {
+//       const errors = err.response.data.errors;
+//       this.setState({ errors })
+//     })
+
+// }
+
+submit = (e) => {
+  // const {match: { params }} = this.props;
+  if (!this.state.title || !this.state.description) {
+    e.preventDefault();
+    this.setState({
+      errorTitle: 'Validation Errors:',
+      errors: 'Wait! Both a Course Title and Description are required.'
+    })
+  } else
+   {
+    e.preventDefault();
+
+    const {title, description, time, materials, courseId, userId} = this.state;
+    const { context } = this.props;
+
+    const authUser = context.authenticatedUser;
+    const emailAddress = authUser.emailAddress;
+    const password = authUser.password
+  // console.log(authUser.firstName + authUser.lastName + emailAddress + password)
+
+    const course = {
+      title,
+      description,
+      time,
+      materials,
+      userId : authUser.id,
+      courseId
     }
-  })
-    .then(() => {
-      this.props.history.push(`/courses/${specificCourse.id}`);
+
+    context.data.updateCourse(course, courseId, emailAddress, password, userId)  
+    .then(errors => {
+      if (errors.length) {
+        this.setState({ errors }); 
+      }  else {
+        this.props.history.push(`/`);
+      }
     })
     .catch((err) => {
-      const errors = err.response.data.errors;
-      this.setState({ errors })
-    })
-
+      console.log(err)
+    }) 
 }
 
+}
 
 
 }
