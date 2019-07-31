@@ -28,7 +28,6 @@ export default class CreateCourse extends Component {
         } = this.state;
         const {context} = this.props;
         const authUser = this.context.authenticatedUser;
-        console.log(`authuser = ${authUser}`)
         return(
 
     <div className="bounds course--detail">
@@ -134,19 +133,21 @@ submit = (e) => {
     })
   } else
    {
-    const {title, description, estimatedTime, materialsNeeded} = this.state;
+    e.preventDefault();
+
+    const {courseTitle, courseDescription, time, materials} = this.state;
     const { context } = this.props;
 
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  
+  console.log(password)
     
     const course = {
-      title,
-      description,
-      estimatedTime,
-      materialsNeeded,
+      courseTitle,
+      courseDescription,
+      time,
+      materials,
       userId : authUser.id
     }
 
@@ -163,42 +164,6 @@ submit = (e) => {
     }) 
 }
 
-//     axios ({
-//         method: 'post',
-//         url: `http://localhost:5000/api/courses/`,
-//         auth: {
-//           // username: window.localStorage.getItem('emailAddress'),
-//           // password: window.localStorage.getItem('password'),
-//           // username: user.emailAddress,
-//           // password: user.password,
-
-//        }
-       
-//        ,
-//         data: {
-//             courseTitle: this.state.title,
-//             courseDescription: this.state.description,
-//             materials: this.state.materialsNeeded,
-//             time: this.state.estimatedTime,
-//             userId: localStorage.getItem("id")
-//             }
-            
-//     })
-//     .then(response => { 
-//       if (response.status === 204) {
-//         alert(`Your course ${this.state.title} has been created`);
-//         this.props.history.push("/courses");
-//       } else {
-//         throw new Error();
-//       }
-//     })
-//     .catch(err => {
-//       console.log("CATCH =", err.response.data.errors);
-//       this.setState({
-//         errors: err.response.data.errors
-//       });
-//     });
-// };
 }
 
 

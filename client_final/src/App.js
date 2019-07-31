@@ -27,6 +27,7 @@ const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const UpdateCourseWithContext = withContext(UpdateCourse);
+const CreateCourseWithContext = withContext(CreateCourse);
 
 class App extends Component { 
 // export default () => (
@@ -40,7 +41,7 @@ class App extends Component {
         {/* <Route exact path="/" component={Public} /> */}
         <Redirect exact from="/" to='/courses' />
         {/* <Route  exact path = '/courses/create' component={CreateCourse} /> */}
-        <PrivateRoute path="/courses/create" component={CreateCourse} />
+        <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
 
         <Route  exact path="/courses" component={Courses} />
         <Route  path = '/courses/:id/update' component={UpdateCourseWithContext} />
