@@ -7,8 +7,7 @@ export default class CreateCourse extends Component {
 
     constructor() {
         super();
-        this.
-        state = {
+        this.state = {
           courseTitle:"",
           courseDescription:"",
           materials:"",
@@ -168,9 +167,11 @@ submit = (e) => {
         method: 'post',
         url: `http://localhost:5000/api/courses/`,
         auth: {
-          username: window.localStorage.getItem('emailAddress'),
-          password: window.localStorage.getItem('password'),
-          
+          // username: window.localStorage.getItem('emailAddress'),
+          // password: window.localStorage.getItem('password'),
+          // username: user.emailAddress,
+          // password: user.password,
+
        }
        
        ,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -28,9 +28,11 @@ const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 
-
-export default () => (
-  <Router>
+class App extends Component { 
+// export default () => (
+  render(){
+    return (
+      <Router>
     <div id="root">
       <HeaderWithContext />
 
@@ -51,4 +53,9 @@ export default () => (
       </Switch>
     </div>
   </Router>
-);
+    )
+  }
+  
+
+}
+export default App;
