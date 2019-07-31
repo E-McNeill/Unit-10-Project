@@ -5,9 +5,9 @@ import axios from 'axios';
 
 export default class CreateCourse extends Component {
 
-    // constructor() {
-    //     super();
-    //     this.
+    constructor(props, context) {
+        super();
+        this.
         state = {
           courseTitle:"",
           courseDescription:"",
@@ -17,7 +17,7 @@ export default class CreateCourse extends Component {
           errors: [],
 
         };
-      // }
+      }
       render(){
         const {
           courseTitle,
@@ -28,8 +28,8 @@ export default class CreateCourse extends Component {
           errors
         } = this.state;
         const {context} = this.props;
-        const authUser = context.authenticatedUser;
-        // console.log(`authuser = ${authUser}`)
+        const authUser = this.context.authenticatedUser;
+        console.log(`authuser = ${authUser}`)
         return(
 
     <div className="bounds course--detail">
