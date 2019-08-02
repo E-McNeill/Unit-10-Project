@@ -9,13 +9,14 @@ export default class CourseDetail extends Component {
     constructor(props) {
       super();
       this.state = {
-        specificCourse: [],
+        course: [],
         userName: "",
-        courseTitle:"",
-        courseDescription:"",
+        title:"",
+        description:"",
         materials:"",
         time: "",
         id:"",
+        userId:""
       };
     }
 
@@ -24,23 +25,46 @@ export default class CourseDetail extends Component {
         .then(response => {
             // const courseInfo = response.data;
           this.setState({
-              specificCourse: response.data,
+              course: response.data,
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
-              courseTitle: response.data.course.title,
-              courseDescription: response.data.course.description,
+              title: response.data.course.title,
+              description: response.data.course.description,
               materials: response.data.course.materialsNeeded,
               time:response.data.course.estimatedTime,
-              id:response.data.course.id
+              id:response.data.course.id,
+              userId: response.data.course.userId
+
 
             })
     })
     
     }
+    deleteCourse = (e,  id) => {
+      e.preventDefault();
+      const { context } = this.props;
+      id = this.props.match.params.id
+      const authUser = context.authenticatedUser;
+      const emailAddress = authUser.emailAddress;
+    const password = authUser.password
+      console.log(emailAddress)
+      console.log(password)
+        axios.delete(`http://localhost:5000/api/courses/${id}`, {
+        auth: {
+          username: emailAddress,
+          password
+        }
+      })
+        .then(() => {
+          this.props.history.push(`/courses`)
+        })
+        .catch((err) => {
+        })
+    }    
 
     
     render() {
-        // const { title, description, estimatedTime, materialsNeeded } = this.state.specificCourse;
-        // const specificCourse = this.state.specificCourse;
+        // const { title, description, estimatedTime, materialsNeeded } = this.state.course;
+        // const course = this.state.course;
 
         return (
 
@@ -52,7 +76,7 @@ export default class CourseDetail extends Component {
             {/* <a className="button" href="update-course.html">Update Course</a> */}
             <Link className='button' to={`/courses/${this.state.id}/update`}>Update Course
             </Link>
-            <a className="button" href="/">Delete Course</a>
+            <a className="button"  onClick={this.deleteCourse} href="/">Delete Course</a>
         </span>
       <Link className="button button-secondary" to="/courses">Return to List</Link>
      </div> 
@@ -63,11 +87,11 @@ export default class CourseDetail extends Component {
     <div className="grid-66">
     <div className="course--header">
     <h4 className="course--label">Course</h4>
-    <h3 className="course--title">{this.state.courseTitle}</h3>
+    <h3 className="course--title">{this.state.title}</h3>
     <p>By {this.state.userName}</p>
     </div>
     <div className="course--description">
-    <p>{this.state.courseDescription}</p>
+    <p>{this.state.description}</p>
     </div>
     </div>
 
@@ -95,7 +119,7 @@ export default class CourseDetail extends Component {
 </div>
 
         );
+    
     }
-
-
+    
 }

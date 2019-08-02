@@ -15,7 +15,8 @@ export default class UpdateCourse extends Component {
           description:"",
           materials:"",
           time: "",
-          errors: []
+          errors: [],
+          loading: false
         };
       }
   
@@ -31,7 +32,8 @@ export default class UpdateCourse extends Component {
               materials: response.data.course.materialsNeeded,
               time:response.data.course.estimatedTime,
               courseId: response.data.course.id,
-              userId: response.data.course.userId
+              userId: response.data.course.userId,
+              loading:true
             })
     })
     
@@ -39,24 +41,39 @@ export default class UpdateCourse extends Component {
 
     
       render(){
+        
         const {
-          title,
-          description,
-          materials,
-          time,
+          // title,
+          // description,
+          // materials,
+          // time,
           errorTitle,
           errors,
-          userId,
-          courseId
+          // userId,
+          // courseId
         } = this.state;
-        const {context} = this.props;
+        // const {context} = this.props;
         
-        const authUser = context.authenticatedUser;
+        // const authUser = context.authenticatedUser;
+        
         return(
+          
             <div className="bounds course--detail">
             <h1>Update Course</h1>
             <div>
-              <form onSubmit={this.submit}>
+            
+        <h2 className="validation--errors--label">{errorTitle}</h2>
+        <div className="validation-errors">
+          <ul>
+            <li>{errors}</li>
+          </ul>
+        </div>
+      </div>
+      
+            <div>
+            
+              <form onSubmit={this.submit} >
+              {(this.state.loading)}
                 <div className="grid-66">
                   <div className="course--header">
                     <h4 className="course--label">Course</h4>
@@ -97,7 +114,7 @@ export default class UpdateCourse extends Component {
                             type="text" 
                             className="course--time--input"
                             placeholder="Hours" 
-                            value={this.state.time} 
+                            value={this.state.time || ''} 
                             onChange={this.change} />
                         </div>
                       </li>
@@ -108,7 +125,7 @@ export default class UpdateCourse extends Component {
                         name="materials" 
                         className="" 
                         placeholder="List materials..." 
-                        value={this.state.materials} 
+                        value={this.state.materials || ''} 
                         onChange={this.change}>
                         </textarea>
                         </div>

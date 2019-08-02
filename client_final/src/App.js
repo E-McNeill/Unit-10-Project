@@ -28,6 +28,7 @@ const UserSignInWithContext = withContext(UserSignIn);
 const UserSignOutWithContext = withContext(UserSignOut);
 const UpdateCourseWithContext = withContext(UpdateCourse);
 const CreateCourseWithContext = withContext(CreateCourse);
+const CourseDetailWithContext = withContext(CourseDetail)
 
 class App extends Component { 
 // export default () => (
@@ -42,7 +43,7 @@ class App extends Component {
         <PrivateRoute path="/courses/create" component={CreateCourseWithContext} />
         <Route  exact path="/courses" component={Courses} />
         <PrivateRoute  path = '/courses/:id/update' component={UpdateCourseWithContext} />
-        <Route  path = '/courses/:id' component={CourseDetail} />
+        <Route  path = '/courses/:id' component={CourseDetailWithContext} />
         <PrivateRoute path="/authenticated" component={AuthWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signup" component={UserSignUpWithContext} />
