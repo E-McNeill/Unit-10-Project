@@ -11,8 +11,8 @@ export default class CreateCourse extends Component {
         state = {
           title:"",
           description:"",
-          materials:"",
-          time: "",
+          materialsNeeded:"",
+          estimatedTime: "",
           errorTitle: '',
           errors: [],
 
@@ -22,8 +22,8 @@ export default class CreateCourse extends Component {
         const {
           title,
           description,
-          materials,
-          time,
+          materialsNeeded,
+          estimatedTime,
           errorTitle,
           errors
         } = this.state;
@@ -77,27 +77,27 @@ export default class CreateCourse extends Component {
           <div className="course--stats">
             <ul className="course--stats--list">
               <li className="course--stats--list--item">
-                <h4>Estimated Time</h4>
+                <h4>Estimated estimatedTime</h4>
                 <label>
                     <input 
-                    id="time" 
-                    name="time" 
+                    id="estimatedTime" 
+                    name="estimatedTime" 
                     type="text" 
                     className="course--time--input"
                     placeholder="Hours" 
-                    value={time}
+                    value={estimatedTime}
                     onChange={this.change}
                     /></label>
               </li>
               <li className="course--stats--list--item">
-                <h4>Materials Needed</h4>
+                <h4>materials Needed</h4>
                 <label>
                   <textarea 
-                  id="materials" 
-                  name="materials" 
+                  id="materialsNeeded" 
+                  name="materialsNeeded" 
                   className="" 
-                  placeholder="List materials..."
-                  value={materials}
+                  placeholder="List Materials Needed..."
+                  value={materialsNeeded}
                   onChange={this.change}>
                     </textarea>
                     </label>
@@ -140,7 +140,7 @@ submit = (e) => {
    {
     e.preventDefault();
 
-    const {title, description, time, materials} = this.state;
+    const {title, description, estimatedTime, materialsNeeded} = this.state;
     const { context } = this.props;
 
     const authUser = context.authenticatedUser;
@@ -151,8 +151,8 @@ submit = (e) => {
     const course = {
       title,
       description,
-      time,
-      materials,
+      estimatedTime,
+      materialsNeeded,
       userId : authUser.id
     }
 

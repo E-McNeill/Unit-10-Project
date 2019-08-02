@@ -13,10 +13,11 @@ export default class CourseDetail extends Component {
         userName: "",
         title:"",
         description:"",
-        materials:"",
-        time: "",
+        materialsNeeded:"",
+        estimatedTime: "",
         id:"",
-        userId:""
+        userId:"",
+        // firstName:"",
       };
     }
 
@@ -29,13 +30,17 @@ export default class CourseDetail extends Component {
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
               title: response.data.course.title,
               description: response.data.course.description,
-              materials: response.data.course.materialsNeeded,
-              time:response.data.course.estimatedTime,
+              materialsNeeded: response.data.course.materialsNeeded,
+              estimatedTime:response.data.course.estimatedTime,
               id:response.data.course.id,
-              userId: response.data.course.userId
+              // firstName: response.data.course.User.firstName, 
+              userId: response.data.course.userId,
+              
 
 
             })
+            
+    
     })
     
     }
@@ -46,8 +51,10 @@ export default class CourseDetail extends Component {
       const authUser = context.authenticatedUser;
       const emailAddress = authUser.emailAddress;
     const password = authUser.password
-      console.log(emailAddress)
-      console.log(password)
+      // console.log(emailAddress)
+      // console.log(password)
+      // console.log(context.authenticatedUser)
+
         axios.delete(`http://localhost:5000/api/courses/${id}`, {
         auth: {
           username: emailAddress,
@@ -65,19 +72,37 @@ export default class CourseDetail extends Component {
     render() {
         // const { title, description, estimatedTime, materialsNeeded } = this.state.course;
         // const course = this.state.course;
+        const { context } = this.props;   
+let authUserId = context.authenticatedUser.id;
 
+console.log(this.props)
+        // if (context.authenticatedUser) {
+        //   let authUserId = context.authenticatedUser.id;
+        // }
         return (
 
 <div>
 <div className="actions--bar">
     <div className="bounds">
       <div className="grid-100">
-        <span>
-            {/* <a className="button" href="update-course.html">Update Course</a> */}
+          { 
+            
+            this.state.userId === authUserId  
+            // this.state.userId
+          ? (
+            <React.Fragment>
+              <span>
             <Link className='button' to={`/courses/${this.state.id}/update`}>Update Course
             </Link>
             <a className="button"  onClick={this.deleteCourse} href="/">Delete Course</a>
-        </span>
+                    </span>
+
+                    </React.Fragment>
+                    ) : (<React.Fragment>
+
+                      <h3>Sign in to update and delete courses</h3>
+                      <br></br>
+                      </React.Fragment>)}
       <Link className="button button-secondary" to="/courses">Return to List</Link>
      </div> 
     </div>
@@ -91,7 +116,7 @@ export default class CourseDetail extends Component {
     <p>By {this.state.userName}</p>
     </div>
     <div className="course--description">
-    <p>{this.state.description}</p>
+    <p><ReactMarkdown source={this.state.description}/></p>
     </div>
     </div>
 
@@ -100,12 +125,13 @@ export default class CourseDetail extends Component {
     <ul className="course--stats--list">
     <li className="course--stats--list--item">
     <h4>Estimated Time</h4>
-    <h3><ReactMarkdown source={this.state.time}/></h3>
+    <h3>{this.state.estimatedTime}</h3>
+
     </li>
     <li className="course--stats--list--item">
     <h4>Materials Needed</h4>
     <ul>
-    <ReactMarkdown source={this.state.materials} />
+    <ReactMarkdown source={this.state.materialsNeeded} />
         
     </ul>
     </li>

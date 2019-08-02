@@ -79,48 +79,5 @@ async createCourse(course, emailAddress, password) {
   }
 }
 
-// async deleteCourse(courseId, emailAddress, password) {
-//   const response = await this.api(`/courses/${courseId}`, 'DELETE', null, true, {emailAddress, password});
-//   if (response.status === 201) {
-//     this.props.history.push(`/courses`)
-//       console.log('deleted')
-//   }
-//   else if (response.status === 400) {
-//     return response.json().then(data => {
-//       return data.errors;
-
-//     });
-//   }
-//   else {
-//     throw new Error();
-
-//   }
-// }
-
-// deleteCourse = (e, emailAddress, password) => {
-//   e.preventDefault();
-//   // const id = this.props.match.params.id
-//   // const { context } = this.props;
-//   // const authUser = context.authenticatedUser;
-
-//   // const emailAddress = authUser.emailAddress;
-//   // const password = authUser.password
-
-//   // Axios Delete Request: url, an option:  auth, which is the basic authentication
-//   axios.delete('http://localhost:5000/api/courses/'+ this.props.match.params.id, {
-//     auth: {
-//       username: emailAddress,
-//       password
-//     }
-//   })
-//     .then(() => {
-//       this.props.history.push(`/courses`)
-//       console.log('deleted')
-//     })
-//     .catch((err) => {
-//       console.log(err)
-//       console.log('issue')
-//     })
-// }    
 
 }

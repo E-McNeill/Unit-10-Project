@@ -13,10 +13,9 @@ export default class UpdateCourse extends Component {
           userName: "",
           title:"",
           description:"",
-          materials:"",
-          time: "",
+          materialsNeeded:"",
+          estimatedTime: "",
           errors: [],
-          loading: false
         };
       }
   
@@ -29,11 +28,10 @@ export default class UpdateCourse extends Component {
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
               title: response.data.course.title,
               description: response.data.course.description,
-              materials: response.data.course.materialsNeeded,
-              time:response.data.course.estimatedTime,
+              materialsNeeded: response.data.course.materialsNeeded,
+              estimatedTime:response.data.course.estimatedTime,
               courseId: response.data.course.id,
               userId: response.data.course.userId,
-              loading:true
             })
     })
     
@@ -45,7 +43,7 @@ export default class UpdateCourse extends Component {
         const {
           // title,
           // description,
-          // materials,
+          // materialsNeeded,
           // time,
           errorTitle,
           errors,
@@ -73,7 +71,6 @@ export default class UpdateCourse extends Component {
             <div>
             
               <form onSubmit={this.submit} >
-              {(this.state.loading)}
                 <div className="grid-66">
                   <div className="course--header">
                     <h4 className="course--label">Course</h4>
@@ -109,23 +106,24 @@ export default class UpdateCourse extends Component {
                         <h4>Estimated Time</h4>
                         <div>
                             <input 
-                            id="time" 
-                            name="time" 
+                            id="estimatedTime" 
+                            name="estimatedTime" 
                             type="text" 
                             className="course--time--input"
                             placeholder="Hours" 
-                            value={this.state.time || ''} 
+                            value={this.state.estimatedTime || ''} 
                             onChange={this.change} />
                         </div>
                       </li>
                       <li className="course--stats--list--item">
-                        <h4>Materials Needed</h4>
-                        <div><textarea 
-                        id="materials" 
-                        name="materials" 
+                        <h4>materialsNeeded Needed</h4>
+                        <div>
+                          <textarea 
+                        id="materialsNeeded" 
+                        name="materialsNeeded" 
                         className="" 
-                        placeholder="List materials..." 
-                        value={this.state.materials || ''} 
+                        placeholder="Materials Needed..." 
+                        value={this.state.materialsNeeded } 
                         onChange={this.change}>
                         </textarea>
                         </div>
@@ -160,7 +158,7 @@ export default class UpdateCourse extends Component {
 
 
 // submit = () => {
-//   const {title, description, time, materials, specificCourse} = this.state;
+//   const {title, description, time, materialsNeeded, specificCourse} = this.state;
 //   const { context } = this.props;
 
 //   const authUser = context.authenticatedUser;
@@ -171,7 +169,7 @@ export default class UpdateCourse extends Component {
 //     title,
 //     description,
 //     time,
-//     materials
+//     materialsNeeded
 //   }
 
 //   const { match: { params } } = this.props;
@@ -198,12 +196,13 @@ submit = (e) => {
     this.setState({
       errorTitle: 'Validation Errors:',
       errors: 'Wait! Both a Course Title and Description are required.'
+      
     })
   } else
    {
     e.preventDefault();
 
-    const {title, description, time, materials, courseId, userId} = this.state;
+    const {title, description, estimatedTime, materialsNeeded, courseId, userId} = this.state;
     const { context } = this.props;
 
     const authUser = context.authenticatedUser;
@@ -214,16 +213,17 @@ submit = (e) => {
     const course = {
       title,
       description,
-      time,
-      materials,
+      estimatedTime,
+      materialsNeeded,
       userId : authUser.id,
       courseId
     }
 
-    context.data.updateCourse(course, courseId, emailAddress, password, userId)  
+    context.data.updateCourse(course, courseId, emailAddress, password, userId,)  
     .then(errors => {
       if (errors.length) {
         this.setState({ errors }); 
+        
       }  else {
         this.props.history.push(`/`);
       }

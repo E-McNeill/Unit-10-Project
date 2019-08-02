@@ -23,7 +23,7 @@ const app = express();
         firstName: user.firstName,
         lastName: user.lastName,
         emailAddress: user.emailAddress,
-        // password: user.password //???
+        password: user.password 
       });
     })
   
