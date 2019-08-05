@@ -30,7 +30,7 @@ export default class CreateCourse extends Component {
         const {context} = this.props;
         
         const authUser = context.authenticatedUser;
-        console.log(authUser)
+        // console.log(authUser)
         return(
 
     <div className="bounds course--detail">
@@ -146,7 +146,7 @@ submit = (e) => {
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  console.log(authUser.firstName + authUser.lastName + emailAddress + password)
+  // console.log(authUser.firstName + authUser.lastName + emailAddress + password)
 
     const course = {
       title,

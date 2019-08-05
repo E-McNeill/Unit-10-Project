@@ -57,6 +57,7 @@ router.post('/courses', authenticateUser, (req, res, next) => {
     })
     .catch(function(err){
         err.status = 500;
+
         return next(err);
     });
   });

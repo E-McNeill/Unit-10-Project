@@ -116,7 +116,9 @@ console.log(this.props)
     <p>By {this.state.userName}</p>
     </div>
     <div className="course--description">
-    <p><ReactMarkdown source={this.state.description}/></p>
+    {/* <p> */}
+      <ReactMarkdown source={this.state.description}/>
+    {/* </p> */}
     </div>
     </div>
 

@@ -223,7 +223,8 @@ submit = (e) => {
     .then(errors => {
       if (errors.length) {
         this.setState({ errors }); 
-        
+        console.log(errors)
+
       }  else {
         this.props.history.push(`/`);
       }
