@@ -75,7 +75,7 @@ export default class CourseDetail extends Component {
         const { context } = this.props;   
 let authUserId = context.authenticatedUser.id;
 
-console.log(this.props)
+// console.log(this.props)
         // if (context.authenticatedUser) {
         //   let authUserId = context.authenticatedUser.id;
         // }

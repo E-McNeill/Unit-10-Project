@@ -42,10 +42,8 @@ export default class Data {
     if (response.status === 201) {
       return [];
     }
-    else if (response.status === 400) {
-      return response.json().then(data => {
-        return data.errors;
-      });
+    else if (response.status !== 201) {
+      return response.json().then(data => data);
     }
     else {
       throw new Error();
@@ -59,6 +57,7 @@ export default class Data {
     } 
     else if (response.status !== 204) {
       return response.json().then(data => data);
+
     } else {
         throw new Error();
     }
@@ -70,13 +69,10 @@ async createCourse(course, emailAddress, password) {
     return [];
     
   }
-  else if (response.status === 400) {
-    return response.json().then(data => {
-
-      return data.errors;
-
-    });
+  else if (response.status !== 201) {
+    return response.json().then(data => data);
   }
+
   else {
 
     throw new Error();

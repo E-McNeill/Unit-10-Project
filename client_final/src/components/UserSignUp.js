@@ -100,10 +100,16 @@ export default class UserSignUp extends Component {
     };
 
     context.data.createUser(user)
-      .then ( errors => {
-        if (errors.length) {
-          // this.setState({ errors });
-          console.log('hello')
+      .then ( err => {
+        if (err) {
+          const errMSG = Object.values(err);
+
+          this.setState({ 
+            errors: errMSG,
+            errorTitle: 'Validation Errors:',
+  
+          }); 
+            console.log(errMSG)
         } else {
           context.actions.signIn(emailAddress, password)
             .then(() => {

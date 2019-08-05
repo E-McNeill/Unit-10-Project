@@ -194,8 +194,8 @@ submit = (e) => {
   if (!this.state.title || !this.state.description) {
     e.preventDefault();
     this.setState({
-      errorTitle: 'Validation Errors:',
-      errors: 'Wait! Both a Course Title and Description are required.'
+      // errorTitle: 'Validation Errors:',
+      // errors: 'Wait! Both a Course Title and Description are required.'
       
     })
   } else
@@ -220,17 +220,22 @@ submit = (e) => {
     }
 
     context.data.updateCourse(course, courseId, emailAddress, password, userId,)  
-    .then(errors => {
-      if (errors.length) {
-        this.setState({ errors }); 
-        console.log(errors)
+    .then(err => {
+      if (err) {
+        const errMSG = Object.values(err);
+        this.setState({ 
+          errors: errMSG,
+          errorTitle: 'Validation Errors:',
+
+        }); 
+        console.log(err)
 
       }  else {
-        this.props.history.push(`/`);
+        // this.props.history.push(`/`);
       }
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     }) 
 }
 
