@@ -31,7 +31,12 @@ const app = express();
 //   Creates a new user.
 router.post('/users', function(req, res, next) {
   // Hash the new user's password.
-  req.body.password = bcryptjs.hashSync(req.body.password);
+  if(req.body.password) {
+    req.body.password = bcryptjs.hashSync(req.body.password);
+  }
+  else {
+    // throw err = new Error('pass');
+  }
 
   User.create(req.body)
   .then(function(user) { 

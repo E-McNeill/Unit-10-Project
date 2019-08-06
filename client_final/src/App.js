@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 
 import Header from './components/Header';
-// import Public from './components/Public';
 import NotFound from './components/NotFound';
 import UserSignUp from './components/UserSignUp';
 import UserSignIn from './components/UserSignIn';

@@ -17,14 +17,13 @@ export default class CourseDetail extends Component {
         estimatedTime: "",
         id:"",
         userId:"",
-        // firstName:"",
       };
     }
 
+    //pulls specific course info with axios on load
     componentDidMount(){
         axios.get('http://localhost:5000/api/courses/'+ this.props.match.params.id)
         .then(response => {
-            // const courseInfo = response.data;
           this.setState({
               course: response.data,
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
@@ -44,6 +43,7 @@ export default class CourseDetail extends Component {
     })
     
     }
+    //deletes the specific course if user is authorized
     deleteCourse = (e,  id) => {
       e.preventDefault();
       const { context } = this.props;
@@ -51,9 +51,6 @@ export default class CourseDetail extends Component {
       const authUser = context.authenticatedUser;
       const emailAddress = authUser.emailAddress;
     const password = authUser.password
-      // console.log(emailAddress)
-      // console.log(password)
-      // console.log(context.authenticatedUser)
 
         axios.delete(`http://localhost:5000/api/courses/${id}`, {
         auth: {
@@ -70,15 +67,8 @@ export default class CourseDetail extends Component {
 
     
     render() {
-        // const { title, description, estimatedTime, materialsNeeded } = this.state.course;
-        // const course = this.state.course;
         const { context } = this.props;   
-let authUserId = context.authenticatedUser.id;
 
-// console.log(this.props)
-        // if (context.authenticatedUser) {
-        //   let authUserId = context.authenticatedUser.id;
-        // }
         return (
 
 <div>
@@ -87,8 +77,9 @@ let authUserId = context.authenticatedUser.id;
       <div className="grid-100">
           { 
             
-            this.state.userId === authUserId  
-            // this.state.userId
+            context.authenticatedUser && this.state.userId === context.authenticatedUser.id 
+
+
           ? (
             <React.Fragment>
               <span>

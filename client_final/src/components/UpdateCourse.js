@@ -18,11 +18,10 @@ export default class UpdateCourse extends Component {
           errors: [],
         };
       }
-  
+  //gets specific course
       componentDidMount(){
         axios.get('http://localhost:5000/api/courses/'+ this.props.match.params.id)
         .then(response => {
-            // const courseInfo = response.data;
           this.setState({
               specificCourse: response.data,
               userName: response.data.course.User.firstName + " " + response.data.course.User.lastName, 
@@ -41,18 +40,9 @@ export default class UpdateCourse extends Component {
       render(){
         
         const {
-          // title,
-          // description,
-          // materialsNeeded,
-          // time,
           errorTitle,
           errors,
-          // userId,
-          // courseId
         } = this.state;
-        // const {context} = this.props;
-        
-        // const authUser = context.authenticatedUser;
         
         return(
           
@@ -116,7 +106,7 @@ export default class UpdateCourse extends Component {
                         </div>
                       </li>
                       <li className="course--stats--list--item">
-                        <h4>materialsNeeded Needed</h4>
+                        <h4>materials Needed</h4>
                         <div>
                           <textarea 
                         id="materialsNeeded" 
@@ -157,49 +147,18 @@ export default class UpdateCourse extends Component {
           }
 
 
-// submit = () => {
-//   const {title, description, time, materialsNeeded, specificCourse} = this.state;
-//   const { context } = this.props;
-
-//   const authUser = context.authenticatedUser;
-//   const emailAddress = authUser.emailAddress;
-//   const password = authUser.password
-
-//   const courseData = {
-//     title,
-//     description,
-//     time,
-//     materialsNeeded
-//   }
-
-//   const { match: { params } } = this.props;
-//   axios.put(`/api/courses/${params.id}`, courseData, {
-//     auth : {
-//       username: emailAddress,
-//       password,
-//     }
-//   })
-//     .then(() => {
-//       this.props.history.push(`/courses/${specificCourse.id}`);
-//     })
-//     .catch((err) => {
-//       const errors = err.response.data.errors;
-//       this.setState({ errors })
-//     })
-
-// }
-
 submit = (e) => {
-  // const {match: { params }} = this.props;
-  if (!this.state.title || !this.state.description) {
-    e.preventDefault();
-    this.setState({
-      // errorTitle: 'Validation Errors:',
-      // errors: 'Wait! Both a Course Title and Description are required.'
+  // if (!this.state.title || !this.state.description) {
+  //   console.log(this.state.title.length)
+  //   console.log(this.state.description.length)
+  //   // this.setState({
       
-    })
-  } else
-   {
+  //   // })
+  //   e.preventDefault();
+
+  // } 
+  // else
+  //  {
     e.preventDefault();
 
     const {title, description, estimatedTime, materialsNeeded, courseId, userId} = this.state;
@@ -208,7 +167,6 @@ submit = (e) => {
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  // console.log(authUser.firstName + authUser.lastName + emailAddress + password)
 
     const course = {
       title,
@@ -218,28 +176,29 @@ submit = (e) => {
       userId : authUser.id,
       courseId
     }
-
+//updates course info if use is authorized
     context.data.updateCourse(course, courseId, emailAddress, password, userId,)  
     .then(err => {
-      if (err) {
+      const a = JSON.stringify(err);
+      if (a.length > 2 ) {
         const errMSG = Object.values(err);
+
         this.setState({ 
           errors: errMSG,
           errorTitle: 'Validation Errors:',
 
         }); 
-        console.log(err)
 
       }  else {
-        // this.props.history.push(`/`);
+        this.props.history.push(`/`);
       }
     })
     .catch((err) => {
-      // console.log(err)
+      console.log(err)
     }) 
 }
 
 }
 
 
-}
+// }

@@ -32,7 +32,7 @@ export class Provider extends Component {
     );
   }
 
-  
+  //signs user into the app using email and password credentials
   signIn = async (emailAddress, password) => {
     const user = await this.data.getUser(emailAddress, password);
     if (user !== null) {
@@ -48,7 +48,7 @@ export class Provider extends Component {
     }
     return user;
   }
-
+//signs user out, removes authorized user
   signOut = () => {
     this.setState({ authenticatedUser: null });
     Cookies.remove('authenticatedUser');

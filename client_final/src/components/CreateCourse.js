@@ -44,7 +44,7 @@ export default class CreateCourse extends Component {
           </ul>
         </div>
       </div>
-      <form onSubmit={this.submit}>
+      <form onSubmit={this.submit} >
         <div className="grid-66">
           <div className="course--header">
             <h4 className="course--label">Course</h4>
@@ -128,16 +128,18 @@ change = (event) => {
   });
 }
 
-submit = (e) => {
-  // const {match: { params }} = this.props;
-  if (!this.state.title || !this.state.description) {
-    e.preventDefault();
-    this.setState({
-      // errorTitle: 'Validation Errors:',
-      // errors: 'Wait! Both a Course Title and Description are required.'
-    })
-  } else
-   {
+submit = (e) => 
+{
+  // console.log(this.state.title.length)
+  // if (this.state.title.length < 1 || this.state.description.length < 1) {
+  //   e.preventDefault()
+
+    // this.setState({
+
+    // })
+  // } 
+  // else
+  //  {
     e.preventDefault();
 
     const {title, description, estimatedTime, materialsNeeded} = this.state;
@@ -146,7 +148,6 @@ submit = (e) => {
     const authUser = context.authenticatedUser;
     const emailAddress = authUser.emailAddress;
     const password = authUser.password
-  // console.log(authUser.firstName + authUser.lastName + emailAddress + password)
 
     const course = {
       title,
@@ -155,25 +156,27 @@ submit = (e) => {
       materialsNeeded,
       userId : authUser.id
     }
-
+//creates a new course
     context.data.createCourse(course, emailAddress, password)  
     .then(err => {
-      if (err) {
-        // e.preventDefault();
+      // console.log(err)
 
-        const errMSG = Object.values(err);
+      const errMSG = Object.values(err);
+      if (errMSG.length > 0) {
         this.setState({ 
           errors: errMSG,
           errorTitle: 'Validation Errors:',
+          
 
         }); 
-
+        // console.log(err)
       }  else {
         this.props.history.push(`/`);
+        // console.log(errMSG)
       }
     })
     .catch((err) => {
-      console.log(err)
+      // console.log(err)
     }) 
 }
 
@@ -182,5 +185,5 @@ submit = (e) => {
 
 
 
-}
+// }
 

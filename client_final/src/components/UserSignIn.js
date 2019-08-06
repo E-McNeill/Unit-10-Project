@@ -67,6 +67,8 @@ export default class UserSignIn extends Component {
     const { from } = this.props.location.state || { from: { pathname: '/authenticated' } };
     const { username, password } = this.state;
 
+
+    //takes user email and password and signs them in
     context.actions.signIn(username, password)
       .then((user) => {
         if (user === null) {
@@ -76,7 +78,6 @@ export default class UserSignIn extends Component {
           });
         } else {
           this.props.history.push(from);
-          // this.props.history.push('/');
         }
       })
       .catch((error) => {

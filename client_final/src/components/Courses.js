@@ -13,7 +13,7 @@ export default class Courses extends Component {
       courses: [],
     };
   }
-
+//gets list ofcourses
 componentDidMount(){
     axios.get('http://localhost:5000/api/courses')
     .then(response => {
@@ -24,7 +24,6 @@ componentDidMount(){
 render(){
 
     const {courses} = this.state;
-    // const allCourses = this.state.courses;
   return(
 
     <div className="bounds">

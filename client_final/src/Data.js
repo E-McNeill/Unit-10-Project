@@ -23,7 +23,7 @@ export default class Data {
     }
     return fetch(url, options);
   }
-
+//gets user info with provided credentials
   async getUser(emailAddress, password) {
     const response = await this.api(`/users`, 'GET', null, true, { emailAddress, password });
     if (response.status === 200) {
@@ -36,7 +36,7 @@ export default class Data {
       throw new Error();
     }
   }
-  
+  //new user created and posted to api 
   async createUser(user) {
     const response = await this.api('/users', 'POST', user);
     if (response.status === 201) {
@@ -49,7 +49,7 @@ export default class Data {
       throw new Error();
     }
   }
-
+//if user is authorized, course info is updated
   async updateCourse(course, courseId, emailAddress, password) {
     const response = await this.api(`/courses/${courseId}`, 'PUT', course, true, {emailAddress, password});
     if (response.status === 204) {
@@ -62,7 +62,7 @@ export default class Data {
         throw new Error();
     }
   }
-
+//if signed in, user an created course
 async createCourse(course, emailAddress, password) {
   const response = await this.api('/courses', 'POST', course, true, {emailAddress, password});
   if (response.status === 201) {

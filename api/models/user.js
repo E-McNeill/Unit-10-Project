@@ -38,9 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: '',
       validate: {
-        notEmpty: { msg: 'A password is required.' },   
+        notEmpty: { msg: 'Please include a password from 1 to 15 characters long'},   
       }
     }
+
+    
     });
   User.associate = function(models) {
     User.hasMany(models.Course, {

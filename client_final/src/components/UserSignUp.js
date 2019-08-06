@@ -98,18 +98,17 @@ export default class UserSignUp extends Component {
       emailAddress,
       password,
     };
-
+//user is created with inputted info
     context.data.createUser(user)
       .then ( err => {
-        if (err) {
+        const a = JSON.stringify(err);
+        if (a.length > 2) {
           const errMSG = Object.values(err);
-
           this.setState({ 
             errors: errMSG,
             errorTitle: 'Validation Errors:',
   
           }); 
-            console.log(errMSG)
         } else {
           context.actions.signIn(emailAddress, password)
             .then(() => {
@@ -118,9 +117,7 @@ export default class UserSignUp extends Component {
         }
       })
       .catch((err) => {
-        // console.log(err.response.data.message);
         this.setState({ errors: err });
-        // this.props.history.push('/error');
       });
     }
 
